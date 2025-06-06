@@ -9,12 +9,13 @@ class DailyDetails extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         crossAxisCount: 3 ,
+        childAspectRatio: 0.9,
         children: const  [
           DetailsColumn(icon: Icons.sunny, text: 'VV', value: '8 Strong') ,
           DetailsColumn(icon: Icons.science, text: 'Temp', value: '29°') ,
           DetailsColumn(icon: Icons.hub, text: 'Humidity', value: '54%') ,
           DetailsColumn(icon: Icons.air, text: 'Wind', value: '18 km/h'),
-          DetailsColumn(icon: Icons.compress, text: 'Pressure', value: '1014 hpa') ,
+          DetailsColumn(icon: Icons.compress, text: 'Pressure', value: '1014 ') ,
           DetailsColumn(icon: Icons.visibility, text: 'Visibility', value: '54 km') ,
 
         ],
