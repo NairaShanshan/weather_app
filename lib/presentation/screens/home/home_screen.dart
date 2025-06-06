@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:weather_app/presentation/providers/current_weather_provider.dart';
+import 'package:weather_app/presentation/providers/daily_weather_provider.dart';
 import 'package:weather_app/presentation/providers/hourly_weather_provider.dart';
 
 import 'package:weather_app/widgets/daily_details/daily_details.dart';
@@ -26,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
       await weatherProvider.fetchWeather("Cairo");
 
       Provider.of<HourlyWeatherProvider>(context, listen: false).fetchHourly("Cairo");
+      Provider.of<DailyForecastProvider>(context, listen: false).fetchDailyForecast("Cairo");
+
 
 
     });
@@ -38,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (city.isNotEmpty) {
       final currentProvider = Provider.of<CurrentWeatherProvider>(context, listen: false);
       final hourlyProvider = Provider.of<HourlyWeatherProvider>(context, listen: false);
+      final dailyProvider = Provider.of<DailyForecastProvider>(context, listen: false); // ✅ مزود الديلي
 
       showDialog(
         context: context,
@@ -48,14 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
       try {
         await currentProvider.fetchWeather(city);
         await hourlyProvider.fetchHourly(city);
+        await dailyProvider.fetchDailyForecast(city); // ✅ استدعاء بيانات التنبؤ اليومي
       } catch (e) {
-        // ممكن هنا تضيف رسالة خطأ أو معالجة الخطأ
         print("Error while searching: $e");
       } finally {
-        Navigator.of(context).pop(); // إغلاق dialog التحميل
+        Navigator.of(context).pop(); // إغلاق الـ dialog
       }
     }
   }
+
 
 
   @override
@@ -70,6 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color(0xff00A1FF) ,
         title:const  Text('Weather App' , style: TextStyle(fontSize: 25),),
         elevation: 0.0,
+        systemOverlayStyle:const SystemUiOverlayStyle(
+          statusBarColor:  Color(0xff00A1FF) ,
+          statusBarIconBrightness: Brightness.light
+        ),
       ),
       body:   Padding(
         padding: const EdgeInsets.all(15.0),
@@ -133,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ) ,
                 const SizedBox(height: 20,),
-                HourlyList(),
+                const HourlyList(),
                 const SizedBox(height: 20,),
                 const Text('Daily Details' ,
                   style: TextStyle(
@@ -143,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ) ,
                 const SizedBox(height: 20,),
-                DailyDetails(),
+                const DailyDetails(),
                 const SizedBox(height: 20,),
                 const Text('Daily Forecast' ,
                   style: TextStyle(
@@ -153,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ) ,
                 const SizedBox(height: 20,),
-                DailyList(),
+                const DailyList(),
 
               ],
             ),

@@ -10,9 +10,10 @@ class HourlyList extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<HourlyWeatherProvider>(context);
     final hourlyData = provider.hourlyWeather ;
+   
 
     if (provider.isLoading) {
-      return const Center(child: CircularProgressIndicator(color: Colors.white));
+      return SizedBox.shrink(); // ببساطة مش هتعرض حاجة
     }
 
     if (hourlyData.isEmpty) {
